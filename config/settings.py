@@ -27,9 +27,9 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 
 ALLOWED_HOSTS = [
+    'crochet-site-7lwc.onrender.com'
     "localhost",
     "127.0.0.1",
-    ".onrender.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
