@@ -7,9 +7,7 @@ from django.core.paginator import Paginator
 
 
 def home(request):
-    # گرفتن ۳ نظر فعال و ۳ پست آخر بلاگ
-    testimonials = Testimonial.objects.filter(is_active=True)[:3]
-    recent_posts = BlogPost.objects.all().order_by('-created_at')[:3]
+    return render(request, "home.html", {})
     
     # مدیریت فرم خبرنامه (Newsletter)
     if request.method == 'POST' and 'email' in request.POST:
