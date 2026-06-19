@@ -27,7 +27,7 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 
 ALLOWED_HOSTS = [
-    'crochet-site-7lwc.onrender.com'
+    'crochet-site-7lwc.onrender.com',
     "localhost",
     "127.0.0.1",
 ]
@@ -139,4 +139,4 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-ECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
