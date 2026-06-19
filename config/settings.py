@@ -24,10 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG =True
 
-
-ALLOWED_HOSTS = ["crochet-site-ui0k.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "crochet-site-ui0k.onrender.com",
+    "localhost",
+    "127.0.0.1"
+]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.onrender.com",
