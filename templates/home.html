@@ -7,9 +7,9 @@
 {% if messages %}
 <div class="container messages-wrap">
     {% for message in messages %}
-        <div class="message {{ message.tags }}">
-            {{ message }}
-        </div>
+    <div class="message {{ message.tags }}">
+        {{ message }}
+    </div>
     {% endfor %}
 </div>
 {% endif %}
@@ -23,7 +23,8 @@
             <h1>Cozy craftsmanship woven with heart</h1>
 
             <p class="hero-description">
-                Discover thoughtful crochet stories, timeless textures, and handmade inspiration created with care and comfort in mind.
+                Discover thoughtful crochet stories, timeless textures, and handmade inspiration created with care and
+                comfort in mind.
             </p>
 
             <div class="hero-buttons">
@@ -34,8 +35,7 @@
 
         <div class="hero-image-wrap">
             <div class="hero-image-card">
-                <img src="{% static 'img/7b0f5ad2-0222-44c2-9574-9eb3bc35c72c.png' %}"
-                     alt="Cozy Crochet atmosphere">
+                <img src="{% static 'img/7b0f5ad2-0222-44c2-9574-9eb3bc35c72c.png' %}" alt="Cozy Crochet atmosphere">
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
     <div class="container story-content">
         <div class="story-image">
             <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80"
-                 alt="Meet the maker">
+                alt="Meet the maker">
         </div>
 
         <div class="story-text">
@@ -103,7 +103,7 @@
             {% for post in recent_posts %}
             <article class="blog-card">
                 {% if post.image %}
-                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                <img src="{{ post.image.url|default:'' }}" alt="{{ post.title }}">
                 {% endif %}
 
                 <div class="blog-card-body">
@@ -149,25 +149,23 @@
 
                 <div style="color:#e0a94f; margin-bottom:12px;">
                     {% for i in "12345"|make_list %}
-                        {% if forloop.counter <= item.rating %}★{% else %}☆{% endif %}
-                    {% endfor %}
+                    {% if forloop.counter <= item.rating %}★{% else %}☆{% endif %} {% endfor %} </div>
+
+                        <p>“{{ item.quote }}”</p>
+
+                        <h4>{{ item.client_name }}</h4>
+                        {% if item.location %}
+                        <small>{{ item.location }}</small>
+                        {% endif %}
                 </div>
-
-                <p>“{{ item.quote }}”</p>
-
-                <h4>{{ item.client_name }}</h4>
-                {% if item.location %}
-                <small>{{ item.location }}</small>
-                {% endif %}
+                {% endfor %}
             </div>
-            {% endfor %}
+            {% else %}
+            <div class="highlight-item" style="text-align:center;">
+                <p>No testimonials yet. Add some from Django Admin.</p>
+            </div>
+            {% endif %}
         </div>
-        {% else %}
-        <div class="highlight-item" style="text-align:center;">
-            <p>No testimonials yet. Add some from Django Admin.</p>
-        </div>
-        {% endif %}
-    </div>
 </section>
 
 <!-- Newsletter -->
@@ -185,10 +183,7 @@
 
             <form method="post" action="{% url 'home' %}" class="newsletter-form">
                 {% csrf_token %}
-                <input type="email"
-                       name="email"
-                       placeholder="Enter your email"
-                       required>
+                <input type="email" name="email" placeholder="Enter your email" required>
                 <button type="submit" class="btn btn-primary">
                     Subscribe
                 </button>
