@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Journal | Saba Crochet{% endblock %}
+
+{% block content %}
+<section class="container" style="padding: 80px 0;">
+    
+    <div style="text-align: center; max-width: 760px; margin: 0 auto 50px;">
+        <p style="color: #c97a55; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">
+            Our Journal
+        </p>
+
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: #4e3422; margin: 10px 0 20px;">
+            Stories, textures, and handmade warmth
+        </h1>
+
+        <p style="font-size: 1.1rem; color: #6D6A75; line-height: 1.8;">
+            A collection of cozy notes, knitting inspiration, and thoughtful reflections from behind the brand.
+        </p>
+    </div>
+
+
+    {% if page_obj %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        
+        {% for post in page_obj %}
+        <article style="background: #fffaf6; border: 1px solid #eadfd7; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
+            
+            {% if post.image %}
+            <div style="height: 220px; overflow: hidden;">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            {% endif %}
+
+            <div style="padding: 24px;">
+                
+                <p style="font-size: 0.9rem; color: #b07a5b; margin-bottom: 10px;">
+                    {{ post.created_at|date:"M d, Y" }}
+                </p>
+
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #4e3422; margin-bottom: 14px;">
+                    {{ post.title }}
+                </h2>
+
+                <p style="color: #6D6A75; line-height: 1.8; margin-bottom: 20px;">
+                    {{ post.summary }}
+                </p>
+
+                <a href="{% url 'blog_detail' post.slug %}" class="btn btn-outline">
+                    Read More
+                </a>
+
+            </div>
+        </article>
+        {% endfor %}
+
+    </div>
+
+
+    <!-- Pagination -->
+    <div style="margin-top:60px; text-align:center;">
+
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" 
+               style="padding:10px 18px; margin:5px; border:1px solid #c97a55; border-radius:8px; text-decoration:none;">
+               Previous
+            </a>
+        {% endif %}
+
+        <span style="margin:0 15px; font-weight:600;">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" 
+               style="padding:10px 18px; margin:5px; border:1px solid #c97a55; border-radius:8px; text-decoration:none;">
+               Next
+            </a>
+        {% endif %}
+
+    </div>
+
+
+    {% else %}
+    <div style="text-align: center; padding: 60px 20px; background: #fffaf6; border: 1px dashed #d8c7bb; border-radius: 20px;">
+        
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; color: #4e3422; margin-bottom: 15px;">
+            No journal entries yet
+        </h3>
+
+        <p style="color: #6D6A75; font-size: 1.05rem;">
+            Your first cozy story will appear here soon.
+        </p>
+
+    </div>
+    {% endif %}
+
+</section>
+{% endblock %}

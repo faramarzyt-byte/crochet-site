@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Contact | Saba Crochet{% endblock %}
+
+{% block content %}
+<section class="container" style="padding: 80px 0; max-width: 600px;">
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: #4e3422; text-align: center; margin-bottom: 40px;">
+        Get in Touch
+    </h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="background:#e7f5e8; color:#1f6b2c; padding:14px 16px; border-radius:10px; margin-bottom:20px; text-align:center;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" style="display:flex; flex-direction:column; gap:20px;">
+        {% csrf_token %}
+
+        <div style="display:flex; flex-direction:column; gap:14px;">
+            <label style="font-weight:600; color:#4e3422;">Name</label>
+            {{ form.name }}
+
+            <label style="font-weight:600; color:#4e3422;">Email</label>
+            {{ form.email }}
+
+            <label style="font-weight:600; color:#4e3422;">Subject</label>
+            {{ form.subject }}
+
+            <label style="font-weight:600; color:#4e3422;">Message</label>
+            {{ form.message }}
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">
+            Send Message
+        </button>
+    </form>
+</section>
+{% endblock %}

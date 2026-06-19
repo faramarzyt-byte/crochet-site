@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home | Saba Crochet {% endblock %}
+
+{% block content %}
+
+{% if messages %}
+<div class="container messages-wrap">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container hero-content">
+        <div>
+            <p class="eyebrow">Handmade warmth from Canada</p>
+
+            <h1>Cozy craftsmanship woven with heart</h1>
+
+            <p class="hero-description">
+                Discover thoughtful crochet stories, timeless textures, and handmade inspiration created with care and comfort in mind.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="{% url 'blog' %}" class="btn btn-primary">Read the Journal</a>
+                <a href="{% url 'about' %}" class="btn btn-outline">Meet the Maker</a>
+            </div>
+        </div>
+
+        <div class="hero-image-wrap">
+            <div class="hero-image-card">
+                <img src="{% static 'img/7b0f5ad2-0222-44c2-9574-9eb3bc35c72c.png' %}"
+                     alt="Cozy Crochet atmosphere">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Value Strip -->
+<section class="highlight-strip">
+    <div class="container highlight-grid">
+        <div class="highlight-item">
+            <h3>Handmade Care</h3>
+            <p>Thoughtful craftsmanship in every piece</p>
+        </div>
+        <div class="highlight-item">
+            <h3>Slow Living</h3>
+            <p>A calm, cozy approach to creativity</p>
+        </div>
+        <div class="highlight-item">
+            <h3>Warm Aesthetic</h3>
+            <p>Soft textures and timeless design</p>
+        </div>
+    </div>
+</section>
+
+<!-- Meet the Maker -->
+<section class="story">
+    <div class="container story-content">
+        <div class="story-image">
+            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=80"
+                 alt="Meet the maker">
+        </div>
+
+        <div class="story-text">
+            <p class="section-label">Meet the Maker</p>
+
+            <h2>The heart behind Saba </h2>
+
+            <p>
+                Saba is a celebration of handmade warmth, inspired by cozy homes,
+                winter textures, and the joy of creating something meaningful with your hands.
+            </p>
+
+            <p>
+                Each story and stitch reflects patience, comfort, and the timeless beauty of artisanal craft.
+            </p>
+
+            <a href="{% url 'about' %}" class="btn btn-outline">Read Our Story</a>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Blog Posts -->
+<section class="blog-preview section-soft">
+    <div class="container">
+
+        <div class="section-heading center-heading">
+            <p class="section-label">From the Journal</p>
+            <h2>Latest cozy stories</h2>
+            <p class="section-intro">
+                Thoughts, inspiration, and handmade notes from behind the scenes.
+            </p>
+        </div>
+
+        {% if recent_posts %}
+        <div class="blog-grid">
+            {% for post in recent_posts %}
+            <article class="blog-card">
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% endif %}
+
+                <div class="blog-card-body">
+                    <p class="blog-meta">
+                        {{ post.created_at|date:"M d, Y" }}
+                    </p>
+
+                    <h3>{{ post.title }}</h3>
+
+                    <p>{{ post.summary|truncatewords:25 }}</p>
+
+                    <a href="{% url 'blog_detail' post.slug %}" class="text-link">
+                        Read More →
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="highlight-item" style="text-align:center;">
+            <p>No posts yet. Add your first blog post in Django Admin.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+    <div class="container">
+
+        <div class="section-heading center-heading">
+            <p class="section-label">Kind Words</p>
+            <h2>What people are saying</h2>
+            <p class="section-intro">
+                Warm feedback from people who connected with the spirit of handmade comfort.
+            </p>
+        </div>
+
+        {% if testimonials %}
+        <div class="testimonial-grid">
+            {% for item in testimonials %}
+            <div class="testimonial-card">
+
+                <div style="color:#e0a94f; margin-bottom:12px;">
+                    {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= item.rating %}★{% else %}☆{% endif %}
+                    {% endfor %}
+                </div>
+
+                <p>“{{ item.quote }}”</p>
+
+                <h4>{{ item.client_name }}</h4>
+                {% if item.location %}
+                <small>{{ item.location }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="highlight-item" style="text-align:center;">
+            <p>No testimonials yet. Add some from Django Admin.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter section-soft">
+    <div class="container">
+        <div class="newsletter-box">
+
+            <div class="newsletter-text">
+                <p class="section-label">Stay Connected</p>
+                <h2>Join the cozy circle</h2>
+                <p>
+                    Receive gentle inspiration, new journal entries, and thoughtful handmade updates.
+                </p>
+            </div>
+
+            <form method="post" action="{% url 'home' %}" class="newsletter-form">
+                {% csrf_token %}
+                <input type="email"
+                       name="email"
+                       placeholder="Enter your email"
+                       required>
+                <button type="submit" class="btn btn-primary">
+                    Subscribe
+                </button>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
