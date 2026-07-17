@@ -1,40 +1,90 @@
-{% extends 'base.html' %}
-{% block title %}Contact | Saba Crochet{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Saba Crochet</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --cream: #FFF9F3; --soft-peach: #FDE8DD; --warm-brown: #6B4C3B; --dusty-pink: #C28B8B; --dark-green: #4A5D4A; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--cream); color: #333; line-height:1.6; }
+        .navbar { display:flex; justify-content:space-between; align-items:center; padding:1.2rem 8%; background:rgba(255,249,243,0.85); backdrop-filter:blur(12px); position:fixed; top:0; left:0; right:0; z-index:999; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+        .logo { text-decoration:none; display:flex; align-items:center; }
+        .logo img { width:180px; height:auto; }
+        .nav-links { display:flex; gap:2.2rem; list-style:none; }
+        .nav-links a { text-decoration:none; color:var(--warm-brown); font-weight:500; padding-bottom:4px; border-bottom:2px solid transparent; transition:all 0.3s; }
+        .nav-links a:hover { border-bottom-color:var(--dusty-pink); color:var(--dusty-pink); }
+        .hamburger { display:none; font-size:1.8rem; background:none; border:none; cursor:pointer; color:var(--warm-brown); }
+        .btn-primary { background:var(--dusty-pink); color:white; border:2px solid var(--dusty-pink); padding:0.75rem 2.5rem; border-radius:30px; font-weight:600; cursor:pointer; transition:all 0.3s; font-size:1rem; }
+        .btn-primary:hover { background:transparent; color:var(--dusty-pink); }
+        input, textarea { width:100%; padding:0.8rem 1rem; border:1px solid #ddd; border-radius:10px; font-family:'Inter',sans-serif; font-size:1rem; }
+        @media (max-width:768px) { .nav-links { display:none; } .hamburger { display:block; } }
+    </style>
+</head>
+<body>
 
-{% block content %}
-<section class="container" style="padding: 80px 0; max-width: 600px;">
-    <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: #4e3422; text-align: center; margin-bottom: 40px;">
-        Get in Touch
-    </h1>
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="Saba Crochet">
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url 'blog' %}">Journal</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+        </ul>
+        <button class="hamburger" id="menuToggle">☰</button>
+    </nav>
 
-    {% if messages %}
+    <section style="padding:7rem 5% 3rem; max-width:600px; margin:0 auto;">
+        <h1 style="font-family:'Playfair Display',serif; font-size:3rem; color:var(--dark-green); text-align:center; margin-bottom:40px;">Get in Touch</h1>
+
+        {% if messages %}
         {% for message in messages %}
-            <div style="background:#e7f5e8; color:#1f6b2c; padding:14px 16px; border-radius:10px; margin-bottom:20px; text-align:center;">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <form method="POST" style="display:flex; flex-direction:column; gap:20px;">
-        {% csrf_token %}
-
-        <div style="display:flex; flex-direction:column; gap:14px;">
-            <label style="font-weight:600; color:#4e3422;">Name</label>
-            {{ form.name }}
-
-            <label style="font-weight:600; color:#4e3422;">Email</label>
-            {{ form.email }}
-
-            <label style="font-weight:600; color:#4e3422;">Subject</label>
-            {{ form.subject }}
-
-            <label style="font-weight:600; color:#4e3422;">Message</label>
-            {{ form.message }}
+        <div style="background:#e7f5e8; color:#1f6b2c; padding:14px 16px; border-radius:10px; margin-bottom:20px; text-align:center;">
+            {{ message }}
         </div>
+        {% endfor %}
+        {% endif %}
 
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">
-            Send Message
-        </button>
-    </form>
-</section>
-{% endblock %}
+        <form method="POST" style="display:flex; flex-direction:column; gap:20px;">
+            {% csrf_token %}
+            <div style="display:flex; flex-direction:column; gap:14px;">
+                <label style="font-weight:600; color:var(--warm-brown);">Name</label>
+                {{ form.name }}
+                <label style="font-weight:600; color:var(--warm-brown);">Email</label>
+                {{ form.email }}
+                <label style="font-weight:600; color:var(--warm-brown);">Subject</label>
+                {{ form.subject }}
+                <label style="font-weight:600; color:var(--warm-brown);">Message</label>
+                {{ form.message }}
+            </div>
+            <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+    </section>
+
+    <footer style="background:var(--soft-peach); padding:2rem 5%; margin-top:3rem; text-align:center; color:var(--warm-brown);">
+        <p>© 2026 Saba Handcrafted Crochet. All rights reserved.</p>
+        <div style="margin-top:1rem;">
+            <a href="/" style="margin:0 10px; color:var(--warm-brown);">Home</a>
+            <a href="{% url 'blog' %}" style="margin:0 10px; color:var(--warm-brown);">Journal</a>
+            <a href="{% url 'about' %}" style="margin:0 10px; color:var(--warm-brown);">About</a>
+            <a href="{% url 'contact' %}" style="margin:0 10px; color:var(--warm-brown);">Contact</a>
+        </div>
+    </footer>
+
+    <script>
+        const toggle=document.getElementById('menuToggle');
+        const nav=document.getElementById('navLinks');
+        toggle.addEventListener('click',()=>{
+            if(nav.style.display==='flex'){nav.style.display='none';}
+            else{nav.style.display='flex';nav.style.flexDirection='column';nav.style.position='absolute';nav.style.top='70px';nav.style.right='8%';nav.style.background='#fff';nav.style.padding='1rem';nav.style.borderRadius='10px';nav.style.boxShadow='0 5px 15px rgba(0,0,0,0.1)';}
+        });
+    </script>
+</body>
+</html>

@@ -5,21 +5,21 @@ from .forms import ContactForm
 from django.core.paginator import Paginator
 
 
-
 def home(request):
-    return render(request, "home.html", {})
-    
-    # مدیریت فرم خبرنامه (Newsletter)
+    # مدیریت فرم خبرنامه
     if request.method == 'POST' and 'email' in request.POST:
         email = request.POST.get('email')
         if email:
-            # ایجاد ایمیل اگر از قبل نباشد (برای جلوگیری از خطای تکراری)
             obj, created = NewsletterSignup.objects.get_or_create(email=email)
             if created:
                 messages.success(request, "Welcome to our inner circle! Thank you for subscribing.")
             else:
                 messages.info(request, "You are already subscribed to our newsletter!")
             return redirect('home')
+
+    # گرفتن داده‌ها از دیتابیس
+    recent_posts = BlogPost.objects.all().order_by('-created_at')[:3]
+    testimonials = Testimonial.objects.filter(is_active=True)
 
     context = {
         'testimonials': testimonials,
@@ -30,7 +30,6 @@ def home(request):
 
 def blog(request):
     posts = BlogPost.objects.all().order_by('-created_at')
-
     paginator = Paginator(posts, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -40,12 +39,8 @@ def blog(request):
     })
 
 
-
-
-# صفحه جزییات هر پست بلاگ
 def blog_detail(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
-
     related_posts = BlogPost.objects.exclude(id=post.id)[:3]
 
     return render(request, "blog_detail.html", {
@@ -56,9 +51,6 @@ def blog_detail(request, slug):
 
 def about(request):
     return render(request, 'about.html')
-
-
-
 
 
 def contact_view(request):
